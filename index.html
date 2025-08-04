@@ -1,0 +1,1718 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Vyver - O App da Vivência</title>
+  <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.0.0/css/all.min.css" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Rajdhani:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    :root {
+      --primary-purple: #8730C3;
+      --secondary-purple: #D069F6;
+      --dark-gray: #2E2D2C;
+      --light-gray: #f8f9fa;
+      --white: #ffffff;
+      --accent-gradient: linear-gradient(135deg, #8730C3, #D069F6);
+      --sustainable-green: #4CAF50;
+    }
+
+    body {
+      font-family: 'Rajdhani', sans-serif;
+      line-height: 1.6;
+      color: var(--dark-gray);
+      overflow-x: hidden;
+    }
+
+    /* Loading Screen */
+    #loading-screen {
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: #D069F6;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      z-index: 2000;
+      opacity: 1;
+      transition: opacity 0.3s ease-out;
+    }
+
+    #loading-screen.fade-out {
+      opacity: 0;
+      pointer-events: none;
+    }
+
+    .logo-loader img {
+      width: 500px;
+      height: 500px;
+      border: none;
+    }
+
+    /* Header */
+    .header {
+      background: var(--white);
+      padding: 1rem 0;
+      position: fixed;
+      width: 100%;
+      top: 0;
+      z-index: 1000;
+      box-shadow: 0 2px 10px rgba(135, 48, 195, 0.1);
+      transition: all 0.3s ease;
+      opacity: 0;
+      animation: fadeIn 0.3s forwards 0.3s;
+    }
+
+    .header.scrolled {
+      box-shadow: 0 4px 20px rgba(135, 48, 195, 0.15);
+      backdrop-filter: blur(10px);
+    }
+
+    .logo {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+    }
+
+    .logo:hover {
+      transform: scale(1.05);
+    }
+
+    .logo-icon {
+      width: 50px;
+      height: 50px;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      background: none;
+    }
+
+    .logo-text {
+      font-size: 2rem;
+      font-weight: 700;
+      color: var(--primary-purple);
+      text-transform: uppercase;
+      letter-spacing: 2px;
+      position: relative;
+    }
+
+    .logo-text::after {
+      content: '';
+      position: absolute;
+      bottom: -2px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gradient);
+      transition: width 0.3s ease;
+    }
+
+    .logo:hover .logo-text::after {
+      width: 100%;
+    }
+
+    .logo-subtitle {
+      font-size: 0.7rem;
+      color: var(--secondary-purple);
+      font-weight: 500;
+      margin-top: -5px;
+      letter-spacing: 1px;
+    }
+
+    .nav-container {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      flex-wrap: nowrap;
+      max-width: 1800px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      gap: 3rem; /* Increased gap between logo, nav, and translation buttons */
+      overflow: hidden;
+    }
+
+    .nav-menu {
+      display: flex;
+      gap: 2rem;
+      align-items: center;
+      flex-wrap: nowrap;
+      white-space: nowrap;
+    }
+
+    .nav-menu a {
+      color: var(--dark-gray);
+      text-decoration: none;
+      font-weight: 500;
+      font-size: 1.1rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      position: relative;
+      white-space: nowrap;
+    }
+
+    .nav-menu a:hover {
+      color: var(--primary-purple);
+      background: rgba(135, 48, 195, 0.05);
+      transform: translateY(-2px);
+    }
+
+    .nav-menu a::before {
+      content: '';
+      position: absolute;
+      bottom: 0;
+      left: 50%;
+      width: 0;
+      height: 2px;
+      background: var(--accent-gradient);
+      transition: all 0.3s ease;
+      transform: translateX(-50%);
+    }
+
+    .nav-menu a:hover::before {
+      width: 80%;
+    }
+
+    .header-instagram {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--primary-purple);
+      text-decoration: none;
+      font-weight: 600;
+      padding: 0.5rem 1rem;
+      border: 2px solid var(--primary-purple);
+      border-radius: 25px;
+      transition: all 0.3s ease;
+      font-size: 0.9rem;
+    }
+
+    .header-instagram:hover {
+      background: var(--accent-gradient);
+      color: white;
+      border-color: transparent;
+      transform: translateY(-2px);
+      box-shadow: 0 5px 15px rgba(135, 48, 195, 0.3);
+    }
+
+    .mobile-menu {
+      display: none;
+      background: none;
+      border: none;
+      color: var(--primary-purple);
+      font-size: 1.5rem;
+      cursor: pointer;
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+    }
+
+    .mobile-menu:hover {
+      background: rgba(135, 48, 195, 0.1);
+    }
+
+    /* Hero Section */
+    .hero {
+      background: var(--primary-purple);
+      padding: 140px 0 80px;
+      display: flex;
+      align-items: center;
+      min-height: 100vh;
+      color: var(--white);
+    }
+
+    .hero-container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .hero-content h1 {
+      font-size: 4rem;
+      font-weight: 700;
+      background: var(--white);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 1rem;
+      text-transform: uppercase;
+      letter-spacing: 3px;
+    }
+
+    .hero-content .subtitle {
+      font-size: 1.5rem;
+      color: var(--light-gray);
+      margin-bottom: 2rem;
+      font-weight: 600;
+    }
+
+    .hero-content .description {
+      font-size: 1.2rem;
+      color: var(--white);
+      margin-bottom: 3rem;
+      opacity: 0.8;
+      line-height: 1.7;
+    }
+
+    .hero-content .download-prompt {
+      font-size: 1.8rem;
+      font-weight: 700;
+      color: var(--light-gray);
+      margin-bottom: 1.5rem;
+      text-align: center;
+    }
+
+    .download-buttons {
+      display: flex;
+      gap: 1rem;
+      margin-bottom: 2rem;
+    }
+
+    .download-btn {
+      display: flex;
+      align-items: center;
+      gap: 0.5rem;
+      background: var(--dark-gray);
+      color: var(--white);
+      padding: 12px 24px;
+      text-decoration: none;
+      border-radius: 12px;
+      font-weight: 600;
+      font-size: 0.9rem;
+      transition: all 0.3s ease;
+      box-shadow: 0 4px 15px rgba(46, 45, 44, 0.2);
+    }
+
+    .download-btn:hover {
+      background: var(--secondary-purple);
+      transform: translateY(-3px);
+      box-shadow: 0 8px 25px rgba(208, 105, 246, 0.3);
+    }
+
+    .social-link {
+      display: inline-flex;
+      align-items: center;
+      gap: 0.5rem;
+      color: var(--light-gray);
+      text-decoration: none;
+      font-weight: 600;
+      font-size: 2.0rem;
+      padding: 0.5rem 1rem;
+      border-radius: 8px;
+      transition: all 0.3s ease;
+      background: var(--primary-purple);
+    }
+
+    .social-link:hover {
+      color: var(--white);
+      background: var(--dark-gray);
+      transform: translateX(5px);
+    }
+
+    .hero-image {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .phone-mockup {
+      width: 310px;
+      height: 500px;
+      background: black;
+      border-radius: 35px;
+      border: 2px solid rgb(40, 40, 40);
+      padding: 7px;
+      position: relative;
+      box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.486);
+    }
+
+    .phone-mockup .card-int {
+      background-image: linear-gradient(to right bottom, #ff0000, #ff0045, #ff0078, #ea00aa, #b81cd7, #8a3ad6, #5746cf, #004ac2, #003d94, #002e66, #001d3a, #020812);
+      background-size: 200% 200%;
+      background-position: 0% 0%;
+      height: 100%;
+      border-radius: 25px;
+      transition: all 0.6s ease-out;
+      overflow: hidden;
+      position: relative;
+    }
+
+    .phone-mockup:hover .card-int {
+      background-position: 100% 100%;
+    }
+
+    .phone-mockup .top {
+      position: absolute;
+      top: 0px;
+      right: 50%;
+      transform: translate(50%, 0%);
+      width: 35%;
+      height: 18px;
+      background-color: black;
+      border-bottom-left-radius: 10px;
+      border-bottom-right-radius: 10px;
+    }
+
+    .phone-mockup .speaker {
+      position: absolute;
+      top: 2px;
+      right: 50%;
+      transform: translate(50%, 0%);
+      width: 40%;
+      height: 2px;
+      border-radius: 2px;
+      background-color: rgb(20, 20, 20);
+    }
+
+    .phone-mockup .camera {
+      position: absolute;
+      top: 6px;
+      right: 84%;
+      transform: translate(50%, 0%);
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background-color: rgba(255, 255, 255, 0.048);
+    }
+
+    .phone-mockup .camera .int {
+      position: absolute;
+      width: 3px;
+      height: 3px;
+      border-radius: 50%;
+      top: 50%;
+      right: 50%;
+      transform: translate(50%, -50%);
+      background-color: rgba(0, 0, 255, 0.212);
+    }
+
+    .phone-mockup .btn1, .phone-mockup .btn2, .phone-mockup .btn3, .phone-mockup .btn4 {
+      position: absolute;
+      width: 2px;
+    }
+
+    .phone-mockup .btn1, .phone-mockup .btn2, .phone-mockup .btn3 {
+      height: 45px;
+      top: 30%;
+      right: -4px;
+      background-image: linear-gradient(to right, #111111, #222222, #333333, #464646, #595959);
+    }
+
+    .phone-mockup .btn2, .phone-mockup .btn3 {
+      transform: scale(-1);
+      left: -4px;
+    }
+
+    .phone-mockup .btn2 {
+      height: 30px;
+      top: 26%;
+    }
+
+    .phone-mockup .btn3 {
+      height: 30px;
+      top: 36%;
+    }
+
+    .phone-mockup .phone-screen {
+      width: 100%;
+      height: 100%;
+      border-radius: 30px;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      text-align: center;
+      padding: 0;
+      box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.1);
+      background: none; /* Removed dark-gray background to match new design */
+    }
+
+    .phone-mockup .phone-screen img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+      border-radius: 20px;
+    }
+
+    /* Sections */
+    .section {
+      padding: 80px 0;
+      border-top: 1px solid var(--light-gray);
+    }
+
+    .container {
+      max-width: 1200px;
+      margin: 0 auto;
+      padding: 0 2rem;
+    }
+
+    .section-title {
+      text-align: center;
+      font-size: 2.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      color: var(--dark-gray);
+      text-transform: uppercase;
+      letter-spacing: 1px;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .section-subtitle {
+      text-align: center;
+      font-size: 1.2rem;
+      color: var(--primary-purple);
+      margin-bottom: 4rem;
+      font-weight: 500;
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .intro-subtitle {
+      text-align: center;
+      font-size: 3.5rem;
+      color: var(--primary-purple);
+      margin-bottom: 2rem;
+      font-weight: 600;
+    }
+
+    .problem-grid, .feature-content, .journey-steps, .stats-grid, .model-grid, .contact-info {
+      opacity: 0;
+      transform: translateY(20px);
+      transition: opacity 0.5s ease, transform 0.5s ease;
+    }
+
+    .section.visible .section-title,
+    .section.visible .section-subtitle,
+    .section.visible .intro-subtitle,
+    .section.visible .problem-grid,
+    .section.visible .feature-content,
+    .section.visible .journey-steps,
+    .section.visible .stats-grid,
+    .section.visible .model-grid,
+    .section.visible .contact-info {
+      opacity: 1;
+      transform: translateY(0);
+    }
+
+    /* Problem Section */
+    .problem {
+      background: white;
+    }
+
+    .problem-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+      gap: 3rem;
+    }
+
+    .problem-item {
+      text-align: center;
+      padding: 2rem;
+      border-radius: 15px;
+      transition: transform 0.3s ease;
+    }
+
+    .problem-item:hover {
+      transform: translateY(-5px);
+    }
+
+    .problem-icon {
+      font-size: 3rem;
+      color: var(--primary-purple);
+      margin-bottom: 1.5rem;
+    }
+
+    .problem-item h3 {
+      font-size: 1.5rem;
+      margin-bottom: 1rem;
+      color: var(--dark-gray);
+      font-weight: 600;
+    }
+
+    .problem-item p {
+      color: var(--dark-gray);
+      opacity: 0.8;
+      font-size: 1.1rem;
+    }
+
+    /* Zero Filas Section */
+    .zero-filas {
+      background: var(--light-gray);
+    }
+
+    .feature-content {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 4rem;
+      align-items: center;
+    }
+
+    .feature-text h2 {
+      font-size: 2.5rem;
+      color: var(--dark-gray);
+      margin-bottom: 1rem;
+      font-weight: 700;
+    }
+
+    .feature-text .highlight {
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+    }
+
+    .feature-text p {
+      font-size: 1.2rem;
+      color: var(--dark-gray);
+      opacity: 0.8;
+      margin-bottom: 2rem;
+    }
+
+    .feature-list {
+      list-style: none;
+    }
+
+    .feature-list li {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      margin-bottom: 1rem;
+      font-size: 1.1rem;
+      color: var(--dark-gray);
+      padding: 0.5rem;
+      border-radius: 8px;
+      transition: background 0.3s ease;
+    }
+
+    .feature-list li:hover {
+      background: rgba(135, 48, 195, 0.05);
+    }
+
+    .feature-list .check-icon {
+      color: var(--primary-purple);
+      font-weight: bold;
+      font-size: 1.2rem;
+    }
+
+    .feature-visual {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+    }
+
+    .feature-icon-large {
+      width: 100px;
+      height: 100px;
+      background: var(--secondary-purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 2.5rem;
+    }
+
+    /* Vyver Coin Wallet Section */
+    .vyver-coin {
+      background: white;
+    }
+
+    .vyver-coin .feature-icon-large {
+      width: 100px;
+      height: 100px;
+      background: var(--secondary-purple);
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      color: var(--white);
+      font-size: 2.5rem;
+    }
+
+    /* Jornada Digital Section */
+    .jornada-digital {
+      background: var(--light-gray);
+    }
+
+    /* App Journey Steps */
+    .journey-steps {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+      margin-top: 3rem;
+    }
+
+    .step-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      box-shadow: 0 5px 20px rgba(135, 48, 195, 0.1);
+      border-left: 4px solid var(--primary-purple);
+      transition: all 0.3s ease;
+    }
+
+    .step-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(135, 48, 195, 0.2);
+    }
+
+    .step-number {
+      display: inline-block;
+      width: 50px;
+      height: 50px;
+      background: var(--accent-gradient);
+      color: white;
+      border-radius: 50%;
+      line-height: 50px;
+      font-size: 1.5rem;
+      font-weight: 600;
+      margin-bottom: 1rem;
+      box-shadow: 0 4px 15px rgba(135, 48, 195, 0.3);
+    }
+
+    .step-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--dark-gray);
+      font-weight: 600;
+    }
+
+    .step-card p {
+      color: var(--dark-gray);
+      opacity: 0.8;
+    }
+
+    /* Market Section */
+    .market {
+      background: white;
+    }
+
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+      gap: 2rem;
+    }
+
+    .stat-card {
+      background: var(--light-gray);
+      padding: 2rem;
+      border-radius: 15px;
+      text-align: center;
+      border-top: 4px solid var(--primary-purple);
+      transition: all 0.3s ease;
+    }
+
+    .stat-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(135, 48, 195, 0.1);
+      border-top-color: var(--secondary-purple);
+    }
+
+    .stat-number {
+      font-size: 2.5rem;
+      font-weight: 700;
+      background: var(--accent-gradient);
+      -webkit-background-clip: text;
+      -webkit-text-fill-color: transparent;
+      background-clip: text;
+      margin-bottom: 0.5rem;
+    }
+
+    .stat-label {
+      font-size: 1.1rem;
+      color: var(--dark-gray);
+    }
+
+    /* Business Model */
+    .business-model {
+      background: var(--light-gray);
+    }
+
+    .model-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+      gap: 2rem;
+    }
+
+    .model-card {
+      background: white;
+      padding: 2rem;
+      border-radius: 15px;
+      box-shadow: 0 5px 20px rgba(135, 48, 195, 0.1);
+      transition: all 0.3s ease;
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      text-align: center;
+    }
+
+    .model-card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 10px 30px rgba(135, 48, 195, 0.2);
+    }
+
+    .model-card h3 {
+      font-size: 1.4rem;
+      margin-bottom: 1rem;
+      color: var(--primary-purple);
+      font-weight: 600;
+    }
+
+    .model-card p {
+      color: var(--dark-gray);
+      opacity: 0.8;
+    }
+
+    .model-card .model-icon {
+      width: 80px;
+      height: 80px;
+      margin-bottom: 1rem;
+    }
+
+    .model-card .model-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+    }
+
+    /* Sustainability Card Styling */
+    .model-card.sustainability {
+      background:  #00C26E;
+      color: var(--white);
+    }
+
+    .model-card.sustainability h3 {
+      color: var(--white);
+    }
+
+    .model-card.sustainability p {
+      color: var(--white);
+      opacity: 1;
+    }
+
+    .model-card.sustainability .model-icon {
+      filter: brightness(0) invert(1);
+    }
+
+    /* Contact Section */
+    .contact {
+      background: var(--primary-purple);
+      color: var(--white);
+    }
+
+    .contact .section-title {
+      color: var(--white);
+    }
+
+    .contact-info {
+      display: flex;
+      justify-content: center;
+      gap: 3rem;
+      margin-top: 3rem;
+      flex-wrap: wrap;
+    }
+
+    .contact-item {
+      display: flex;
+      align-items: center;
+      gap: 1rem;
+      font-size: 1.2rem;
+      padding: 1rem;
+      border-radius: 10px;
+      transition: all 0.3s ease;
+      background: #2E2D2C;
+    }
+
+    .contact-item:hover {
+      background: var(--secondary-purple);
+      transform: translateY(-2px);
+      color: var(--white);
+    }
+
+    .contact-icon {
+      font-size: 1.5rem;
+      color: var(--white);
+    }
+
+    .contact-item a {
+      color: inherit;
+      text-decoration: none;
+    }
+
+    /* Footer */
+    .footer {
+      background: #1a1a1a;
+      color: white;
+      text-align: center;
+      padding: 2rem 0;
+    }
+
+    .footer p {
+      margin-bottom: 1rem;
+    }
+
+    /* Back to Top Button */
+    #back-to-top {
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 20px;
+      background: var(--primary-purple);
+      color: white;
+      border: none;
+      border-radius: 50%;
+      width: 50px;
+      height: 50px;
+      font-size: 1.5rem;
+      cursor: pointer;
+      box-shadow: 0 4px 15px rgba(135, 48, 195, 0.3);
+      transition: opacity 0.3s ease;
+    }
+
+    #back-to-top:hover {
+      background: var(--accent-gradient);
+    }
+
+    /* Language Buttons */
+    .lang-buttons {
+      display: flex;
+      justify-content: center;
+      gap: 1rem;
+      margin-top: 1rem;
+      background: var(--dark-gray);
+      padding: 0.5rem 1rem;
+      border-radius: 25px;
+      box-shadow: 0 4px 15px rgba(46, 45, 44, 0.2);
+    }
+
+    .lang-btn {
+      background: transparent;
+      color: var(--white);
+      border: none;
+      padding: 8px 16px;
+      margin: 0 5px;
+      border-radius: 20px;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+      font-size: 0.9rem;
+      font-weight: 600;
+    }
+
+    .lang-btn:hover {
+      background: var(--secondary-purple);
+      transform: scale(1.1);
+    }
+
+    /* Fade Animation */
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    /* Mobile Responsive */
+    @media (max-width: 768px) {
+      .nav-menu {
+        display: none;
+        position: absolute;
+        top: 100%;
+        left: 0;
+        width: 100%;
+        background: white;
+        flex-direction: column;
+        padding: 2rem;
+        box-shadow: 0 5px 20px rgba(135, 48, 195, 0.1);
+        border-radius: 0 0 15px 15px;
+      }
+
+      .nav-menu.active {
+        display: flex;
+      }
+
+      .mobile-menu {
+        display: block;
+      }
+
+      .header-instagram {
+        display: none;
+      }
+
+      .logo-text {
+        font-size: 1.5rem;
+      }
+
+      .logo-icon {
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .hero-container {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        text-align: center;
+        padding: 1rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2.5rem;
+      }
+
+      .hero-content .subtitle {
+        font-size: 1.2rem;
+      }
+
+      .hero-content .description {
+        font-size: 1rem;
+      }
+
+      .hero-content .download-prompt {
+        font-size: 1.5rem;
+      }
+
+      .download-buttons {
+        flex-direction: column;
+        align-items: center;
+        gap: 0.5rem;
+      }
+
+      .download-btn {
+        width: 50%;
+        text-align: center;
+        padding: 8px 16px;
+        font-size: 0.8rem;
+      }
+
+      .social-link {
+        font-size: 1.5rem;
+        padding: 0.5rem;
+        width: 50%;
+        text-align: center;
+      }
+
+      .phone-mockup {
+        width: 550px;
+        height: 550px; /* Reduced height for mobile */
+        padding: 5px;
+        transform: rotate(0deg);
+      }
+
+      .phone-mockup .phone-screen img {
+        border-radius: 15px; /* Adjusted for smaller size */
+      }
+
+      .feature-content {
+        grid-template-columns: 1fr;
+        gap: 2rem;
+        padding: 1rem;
+      }
+
+      .feature-visual {
+        order: -1;
+      }
+
+      .feature-icon-large {
+        width: 80px;
+        height: 80px;
+        font-size: 2rem;
+      }
+
+      .contact-info {
+        flex-direction: column;
+        gap: 1.5rem;
+        padding: 1rem;
+      }
+
+      .contact-item {
+        width: 100%;
+        justify-content: center;
+      }
+
+      .section-title {
+        font-size: 2rem;
+      }
+
+      .section-subtitle, .intro-subtitle {
+        font-size: 1rem;
+      }
+
+      .intro-subtitle { /* Increased font size for mobile */
+        font-size: 2.5rem;
+      }
+
+      .problem-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .journey-steps {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .stats-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .model-grid {
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+      }
+
+      .model-card .model-icon {
+        width: 60px;
+        height: 60px;
+      }
+
+      .lang-buttons {
+        flex-direction: row;
+        gap: 0.5rem;
+        padding: 0.3rem 0.5rem;
+        margin-top: 0.5rem;
+      }
+
+      .lang-btn {
+        width: auto;
+        padding: 6px 12px;
+      }
+    }
+
+    @media (max-width: 480px) {
+      .download-buttons {
+        gap: 0.5rem;
+      }
+
+      .download-btn {
+        padding: 8px 16px;
+        font-size: 0.8rem;
+      }
+
+      .nav-container {
+        padding: 0 1rem;
+      }
+
+      #back-to-top {
+        bottom: 10px;
+        right: 10px;
+        width: 40px;
+        height: 40px;
+        font-size: 1.2rem;
+      }
+
+      .hero-content h1 {
+        font-size: 2rem;
+      }
+
+      .hero-content .download-prompt {
+        font-size: 1.2rem;
+      }
+
+      .phone-mockup {
+        width: 120px;
+        height: 200px; /* Further reduced for smaller screens */
+        padding: 3px;
+      }
+    }
+  </style>
+</head>
+<body>
+<!-- Loading Screen -->
+<div id="loading-screen">
+  <div class="logo-loader"><img src="loading.jpg" width="500" height="500"></div>
+</div>
+
+<header class="header" id="header">
+  <div class="nav-container">
+    <div class="logo" onclick="scrollToTop()">
+      <div class="logo-icon"><img src="loading.jpg" alt="Vyver Logo" style="width: 100%; height: 100%; object-fit: contain;"></div>
+      <h1 class="logo-text">Vyver</h1>
+    </div>
+    <nav class="nav-menu" id="navMenu">
+      <a href="#home">Início</a>
+      <a href="#problema">Problema</a>
+      <a href="#solucao">Zero Filas</a>
+      <a href="#vyver-coin-section">Vyver Coin</a>
+      <a href="#jornada">Jornada</a>
+      <a href="#mercado">Mercado</a>
+      <a href="#modelo">Modelo</a>
+      <a href="#contato">Contato</a>
+      <div class="lang-buttons">
+        <button class="lang-btn" onclick="changeLanguage('pt-BR')">Português</button>
+        <button class="lang-btn" onclick="changeLanguage('en')">English</button>
+        <button class="lang-btn" onclick="changeLanguage('es')">Español</button>
+      </div>
+    </nav>
+    <button class="mobile-menu" onclick="toggleMenu()">
+      <i class="fas fa-bars"></i>
+    </button>
+  </div>
+</header>
+
+<section id="home" class="hero">
+  <div class="hero-container">
+    <div class="hero-content">
+      <h1>VYVER</h1>
+      <p class="subtitle">O App da Vivência</p>
+      <p class="description">Reinventando o jeito de entrar, pagar e se conectar em eventos. Zero filas, 100% digital, jornada unificada.</p>
+      <p class="download-prompt">Baixe já o nosso app</p>
+      <div class="download-buttons">
+        <a href="https://apps.apple.com/br/app/vyver/id6451394912" class="download-btn">
+          <i class="fab fa-apple"></i>
+          <span>App Store</span>
+        </a>
+        <a href="https://play.google.com/store/apps/details?id=com.br.vyverapp&hl=pt_BR" class="download-btn">
+          <i class="fab fa-google-play"></i>
+          <span>Google Play</span>
+        </a>
+      </div>
+      <a href="https://instagram.com/vyver.app" class="social-link" target="_blank">
+        <i class="fab fa-instagram"></i>
+        <span>@vyver.app</span>
+      </a>
+    </div>
+    <div class="hero-image">
+      <div class="phone-mockup">
+        <div class="card-int">
+          <div class="top">
+            <div class="camera">
+              <div class="int"></div>
+            </div>
+            <div class="speaker"></div>
+          </div>
+          <div class="btn1"></div>
+          <div class="btn2"></div>
+          <div class="btn3"></div>
+          <div class="btn4"></div>
+          <div class="phone-screen">
+            <img src="phoneft.jpg" alt="Vyver App" style="width: 100%; height: 100%; object-fit: cover; border-radius: 20px;">
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="problema" class="section problem">
+  <div class="container">
+    <h2 class="section-title">Era Uma Vez um Problema</h2>
+    <p class="section-subtitle">Os desafios que motivaram a criação da Vyver</p>
+  </div>
+</section>
+
+<section id="solucao" class="section zero-filas">
+  <div class="container">
+    <p class="intro-subtitle">Então a Vyver trouxe</p>
+    <div class="feature-content">
+      <div class="feature-text">
+        <h2><span class="highlight">Zero</span> Filas</h2>
+        <p>Eliminamos completamente as filas de entrada, consumo e saída dos eventos através de tecnologia 100% digital.</p>
+        <ul class="feature-list">
+          <li><span class="check-icon">✓</span> Check-in automático via QR Code</li>
+          <li><span class="check-icon">✓</span> Pedidos direto no app</li>
+          <li><span class="check-icon">✓</span> Pagamento instantâneo</li>
+          <li><span class="check-icon">✓</span> Saída sem complicação</li>
+        </ul>
+      </div>
+      <div class="feature-visual">
+        <div class="feature-icon-large">
+          <i class="fas fa-mobile-alt" style="font-size: 2.5rem;"></i>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="vyver-coin-section" class="section vyver-coin">
+  <div class="container">
+    <div class="feature-content">
+      <div class="feature-visual">
+        <div class="feature-icon-large">
+          <i class="fas fa-wallet" style="font-size: 2.5rem;"></i>
+        </div>
+      </div>
+      <div class="feature-text">
+        <h2><span class="highlight">Vyver Coin</span> Wallet</h2>
+        <p>Adeus às maquininhas! Nossa carteira digital funciona em todos os eventos Vyver.</p>
+        <ul class="feature-list">
+          <li><span class="check-icon">✓</span> Recarga via PIX ou cartão de crédito</li>
+          <li><span class="check-icon">✓</span> Uma conta para todas as festas</li>
+          <li><span class="check-icon">✓</span> Sem maquininhas, totens ou pulseiras</li>
+          <li><span class="check-icon">✓</span> Saldo disponível em tempo real</li>
+        </ul>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="jornada" class="section jornada-digital">
+  <div class="container">
+    <h2 class="section-title">Jornada 100% Digital</h2>
+    <p class="section-subtitle">Do ingresso à saída: tudo acontece dentro da Vyver</p>
+    <div class="journey-steps">
+      <div class="step-card">
+        <div class="step-number">1</div>
+        <h3>Criação de Conta</h3>
+        <p>Verificação automática por CPF, validando nome e data de nascimento para maior segurança</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">2</div>
+        <h3>Descoberta de Eventos</h3>
+        <p>Sugestões personalizadas com base em localização, estilo musical e histórico de consumo</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">3</div>
+        <h3>Compra do Ingresso</h3>
+        <p>Processo simples e direto, com possibilidade de interação social e networking</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">4</div>
+        <h3>Consumo no Evento</h3>
+        <p>Pediu, pagou, retirou. Compre bebidas, combos e comidas direto no app</p>
+      </div>
+      <div class="step-card">
+        <div class="step-number">5</div>
+        <h3>Saída Inteligente</h3>
+        <p>Extrato da noite, saldo restante e sugestões de novos eventos automaticamente</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="mercado" class="section market">
+  <div class="container">
+    <h2 class="section-title">Oportunidade de Mercado</h2>
+    <p class="section-subtitle">Dados que comprovam o potencial do setor</p>
+    <div class="stats-grid">
+      <div class="stat-card">
+        <div class="stat-number">R$ 141bi</div>
+        <div class="stat-label">Previsão de consumo total no setor de eventos em 2025 (ABRAPE)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">78%</div>
+        <div class="stat-label">Dos comerciantes já perderam vendas por causa de filas demoradas (NextQS)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">25%</div>
+        <div class="stat-label">Aumento médio no ticket por pessoa com pagamentos digitais (Eventbrite)</div>
+      </div>
+      <div class="stat-card">
+        <div class="stat-number">R$ 500mil</div>
+        <div class="stat-label">Economia em infraestrutura por evento eliminando equipamentos físicos</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="modelo" class="section business-model">
+  <div class="container">
+    <h2 class="section-title">Modelo de Negócio</h2>
+    <p class="section-subtitle">Soluções completas para B2C e B2B</p>
+    <div class="model-grid">
+      <div class="model-card">
+        <div class="model-icon"><img src="B2C.jpg" alt="B2C Icon"></div>
+        <h3>Vyver (B2C)</h3>
+        <p>Ingresso digital, consumo cashless e rede social para os usuários finais. Experiência completa e integrada.</p>
+      </div>
+      <div class="model-card">
+        <div class="model-icon"><img src="B2B.jpg" alt="B2B Icon"></div>
+        <h3>Vyver Control (B2B)</h3>
+        <p>Gestão de acessos, consumo e vendas em tempo real para organizadores de eventos e casas noturnas.</p>
+      </div>
+      <div class="model-card">
+        <h3>Monetização</h3>
+        <p>Taxa de 12% sobre transações + "empréstimos" instantâneos com juros 0% para aumentar o consumo.</p>
+      </div>
+      <div class="model-card sustainability">
+        <h3>Sustentabilidade</h3>
+        <p>Eliminação de papel, plástico e logística pesada. Solução 100% digital e ecologicamente responsável.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<section id="contato" class="section contact">
+  <div class="container">
+    <h2 class="section-title">Vamos Revolucionar Seu Evento?</h2>
+    <p style="font-size: 1.3rem; margin-bottom: 2rem;">
+      Pronto para eliminar filas e aumentar o faturamento? Entre em contato conosco!
+    </p>
+    <div class="contact-info">
+      <div class="contact-item">
+        <div class="contact-icon">
+          <i class="fas fa-envelope"></i>
+        </div>
+        <a href="mailto:contato@vyver.app">atendimento@vyver.com.br</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <i class="fab fa-instagram"></i>
+        </div>
+        <a href="https://instagram.com/vyver.app" target="_blank">@vyver.app</a>
+      </div>
+      <div class="contact-item">
+        <div class="contact-icon">
+          <i class="fas fa-map-marker-alt"></i>
+        </div>
+        <span>Mogi das Cruzes, São Paulo</span>
+      </div>
+    </div>
+  </div>
+</section>
+
+<footer class="footer">
+  <div class="container">
+    <p>&copy; 2025 Vyver App. Todos os direitos reservados. | O melhor da balada em suas mãos</p>
+    <p>Desenvolvido por Lucas Cabral</p>
+  </div>
+</footer>
+
+<button id="back-to-top" onclick="scrollToTop()"><i class="fas fa-arrow-up"></i></button>
+
+<script>
+  // Loading screen
+  window.addEventListener('load', () => {
+    const loadingScreen = document.getElementById('loading-screen');
+    setTimeout(() => {
+      loadingScreen.classList.add('fade-out');
+    }, 500);
+  });
+
+  // Mobile menu toggle
+  function toggleMenu() {
+    const menu = document.getElementById('navMenu');
+    menu.classList.toggle('active');
+  }
+
+  // Smooth scrolling
+  document.querySelectorAll('a[href^="#"]').forEach(anchor => {
+    anchor.addEventListener('click', function (e) {
+      e.preventDefault();
+      const target = document.querySelector(this.getAttribute('href'));
+      if (target) {
+        target.scrollIntoView({
+          behavior: 'smooth',
+          block: 'start'
+        });
+      }
+      document.getElementById('navMenu').classList.remove('active');
+    });
+  });
+
+  // Header background change on scroll
+  window.addEventListener('scroll', () => {
+    const header = document.getElementById('header');
+    if (window.scrollY > 100) {
+      header.classList.add('scrolled');
+    } else {
+      header.classList.remove('scrolled');
+    }
+
+    // Show/hide back to top button
+    const backToTop = document.getElementById('back-to-top');
+    if (window.scrollY > 300) {
+      backToTop.style.display = 'block';
+    } else {
+      backToTop.style.display = 'none';
+    }
+  });
+
+  // Scroll to top function
+  function scrollToTop() {
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  // Scroll animations
+  document.addEventListener('scroll', () => {
+    const sections = document.querySelectorAll('.section');
+    const observer = new IntersectionObserver((entries, observer) => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('visible');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.1 });
+
+    sections.forEach(section => {
+      observer.observe(section);
+    });
+  });
+
+  // Language translation
+  function changeLanguage(lang) {
+    const translations = {
+      'pt-BR': {
+        title: 'Vyver - O App da Vivência',
+        heroH1: 'VYVER',
+        heroSubtitle: 'O App da Vivência',
+        heroDescription: 'Reinventando o jeito de entrar, pagar e se conectar em eventos. Zero filas, 100% digital, jornada unificada.',
+        downloadPrompt: 'Baixe já o nosso app',
+        appStore: 'App Store',
+        googlePlay: 'Google Play',
+        instagram: '@vyver.app',
+        problemTitle: 'Era Uma Vez um Problema',
+        problemSubtitle: 'Os desafios que motivaram a criação da Vyver',
+        introSubtitle: 'Então a Vyver trouxe',
+        zeroFilasTitle: 'Zero Filas',
+        zeroFilasDesc: 'Eliminamos completamente as filas de entrada, consumo e saída dos eventos através de tecnologia 100% digital.',
+        zeroFilas1: 'Check-in automático via QR Code',
+        zeroFilas2: 'Pedidos direto no app',
+        zeroFilas3: 'Pagamento instantâneo',
+        zeroFilas4: 'Saída sem complicação',
+        vyverCoinTitle: 'Vyver Coin Wallet',
+        vyverCoinDesc: 'Adeus às maquininhas! Nossa carteira digital funciona em todos os eventos Vyver.',
+        vyverCoin1: 'Recarga via PIX ou cartão de crédito',
+        vyverCoin2: 'Uma conta para todas as festas',
+        vyverCoin3: 'Sem maquininhas, totens ou pulseiras',
+        vyverCoin4: 'Saldo disponível em tempo real',
+        jornadaTitle: 'Jornada 100% Digital',
+        jornadaSubtitle: 'Do ingresso à saída: tudo acontece dentro da Vyver',
+        jornada1: 'Criação de Conta',
+        jornada1Desc: 'Verificação automática por CPF, validando nome e data de nascimento para maior segurança',
+        jornada2: 'Descoberta de Eventos',
+        jornada2Desc: 'Sugestões personalizadas com base em localização, estilo musical e histórico de consumo',
+        jornada3: 'Compra do Ingresso',
+        jornada3Desc: 'Processo simples e direto, com possibilidade de interação social e networking',
+        jornada4: 'Consumo no Evento',
+        jornada4Desc: 'Pediu, pagou, retirou. Compre bebidas, combos e comidas direto no app',
+        jornada5: 'Saída Inteligente',
+        jornada5Desc: 'Extrato da noite, saldo restante e sugestões de novos eventos automaticamente',
+        mercadoTitle: 'Oportunidade de Mercado',
+        mercadoSubtitle: 'Dados que comprovam o potencial do setor',
+        mercado1: 'R$ 141bi',
+        mercado1Label: 'Previsão de consumo total no setor de eventos em 2025 (ABRAPE)',
+        mercado2: '78%',
+        mercado2Label: 'Dos comerciantes já perderam vendas por causa de filas demoradas (NextQS)',
+        mercado3: '25%',
+        mercado3Label: 'Aumento médio no ticket por pessoa com pagamentos digitais (Eventbrite)',
+        mercado4: 'R$ 500mil',
+        mercado4Label: 'Economia em infraestrutura por evento eliminando equipamentos físicos',
+        modeloTitle: 'Modelo de Negócio',
+        modeloSubtitle: 'Soluções completas para B2C e B2B',
+        modelo1: 'Vyver (B2C)',
+        modelo1Desc: 'Ingresso digital, consumo cashless e rede social para os usuários finais. Experiência completa e integrada.',
+        modelo2: 'Vyver Control (B2B)',
+        modelo2Desc: 'Gestão de acessos, consumo e vendas em tempo real para organizadores de eventos e casas noturnas.',
+        modelo3: 'Monetização',
+        modelo3Desc: 'Taxa de 12% sobre transações + "empréstimos" instantâneos com juros 0% para aumentar o consumo.',
+        modelo4: 'Sustentabilidade',
+        modelo4Desc: 'Eliminação de papel, plástico e logística pesada. Solução 100% digital e ecologicamente responsável.',
+        contatoTitle: 'Vamos Revolucionar Seu Evento?',
+        contatoDesc: 'Pronto para eliminar filas e aumentar o faturamento? Entre em contato conosco!',
+        email: 'contato@vyver.app',
+        location: 'Mogi das Cruzes, São Paulo',
+        footer: '&copy; 2025 Vyver App. Todos os direitos reservados. | O melhor da balada em suas mãos',
+        developer: 'Desenvolvido por Lucas Cabral'
+      },
+      'en': {
+        title: 'Vyver - The Living Experience App',
+        heroH1: 'VYVER',
+        heroSubtitle: 'The Living Experience App',
+        heroDescription: 'Reinventing the way to enter, pay, and connect at events. Zero queues, 100% digital, unified journey.',
+        downloadPrompt: 'Download our app now',
+        appStore: 'App Store',
+        googlePlay: 'Google Play',
+        instagram: '@vyver.app',
+        problemTitle: 'Once Upon a Problem',
+        problemSubtitle: 'The challenges that inspired Vyver\'s creation',
+        introSubtitle: 'Then Vyver Brought',
+        zeroFilasTitle: 'Zero Queues',
+        zeroFilasDesc: 'We completely eliminate entry, consumption, and exit queues through 100% digital technology.',
+        zeroFilas1: 'Automatic check-in via QR Code',
+        zeroFilas2: 'Orders directly in the app',
+        zeroFilas3: 'Instant payments',
+        zeroFilas4: 'Hassle-free exit',
+        vyverCoinTitle: 'Vyver Coin Wallet',
+        vyverCoinDesc: 'Goodbye to card machines! Our digital wallet works at all Vyver events.',
+        vyverCoin1: 'Recharge via PIX or credit card',
+        vyverCoin2: 'One account for all parties',
+        vyverCoin3: 'No card machines, kiosks, or bracelets',
+        vyverCoin4: 'Real-time balance available',
+        jornadaTitle: '100% Digital Journey',
+        jornadaSubtitle: 'From ticket to exit: everything happens within Vyver',
+        jornada1: 'Account Creation',
+        jornada1Desc: 'Automatic CPF verification, validating name and birth date for enhanced security',
+        jornada2: 'Event Discovery',
+        jornada2Desc: 'Personalized suggestions based on location, music style, and consumption history',
+        jornada3: 'Ticket Purchase',
+        jornada3Desc: 'Simple and direct process with social interaction and networking opportunities',
+        jornada4: 'Event Consumption',
+        jornada4Desc: 'Ordered, paid, collected. Buy drinks, combos, and food directly in the app',
+        jornada5: 'Smart Exit',
+        jornada5Desc: 'Night summary, remaining balance, and new event suggestions automatically',
+        mercadoTitle: 'Market Opportunity',
+        mercadoSubtitle: 'Data proving the sector\'s potential',
+        mercado1: 'R$ 141bi',
+        mercado1Label: 'Projected total consumption in the event sector in 2025 (ABRAPE)',
+        mercado2: '78%',
+        mercado2Label: 'Of merchants have lost sales due to long queues (NextQS)',
+        mercado3: '25%',
+        mercado3Label: 'Average increase in per-person ticket with digital payments (Eventbrite)',
+        mercado4: 'R$ 500k',
+        mercado4Label: 'Savings in infrastructure per event by eliminating physical equipment',
+        modeloTitle: 'Business Model',
+        modeloSubtitle: 'Complete solutions for B2C and B2B',
+        modelo1: 'Vyver (B2C)',
+        modelo1Desc: 'Digital tickets, cashless consumption, and social network for end users. Complete and integrated experience.',
+        modelo2: 'Vyver Control (B2B)',
+        modelo2Desc: 'Real-time access, consumption, and sales management for event organizers and nightclubs.',
+        modelo3: 'Monetization',
+        modelo3Desc: '12% transaction fee + 0% interest instant loans to boost consumption.',
+        modelo4: 'Sustainability',
+        modelo4Desc: 'Elimination of paper, plastic, and heavy logistics. 100% digital and eco-friendly solution.',
+        contatoTitle: 'Let\'s Revolutionize Your Event?',
+        contatoDesc: 'Ready to eliminate queues and boost revenue? Contact us!',
+        email: 'contato@vyver.app',
+        location: 'Mogi das Cruzes, São Paulo',
+        footer: '&copy; 2025 Vyver App. All rights reserved. | The best of the party in your hands',
+        developer: 'Developed by Lucas Cabral'
+      },
+      'es': {
+        title: 'Vyver - La App de la Experiencia Viva',
+        heroH1: 'VYVER',
+        heroSubtitle: 'La App de la Experiencia Viva',
+        heroDescription: 'Reinventando la forma de entrar, pagar y conectarse en eventos. Sin filas, 100% digital, viaje unificado.',
+        downloadPrompt: 'Descarga ahora nuestra app',
+        appStore: 'App Store',
+        googlePlay: 'Google Play',
+        instagram: '@vyver.app',
+        problemTitle: 'Érase una vez un Problema',
+        problemSubtitle: 'Los desafíos que inspiraron la creación de Vyver',
+        introSubtitle: 'Entonces Vyver trajo',
+        zeroFilasTitle: 'Cero Filas',
+        zeroFilasDesc: 'Eliminamos completamente las filas de entrada, consumo y salida de los eventos mediante tecnología 100% digital.',
+        zeroFilas1: 'Check-in automático vía QR Code',
+        zeroFilas2: 'Pedidos directamente en la app',
+        zeroFilas3: 'Pagos instantáneos',
+        zeroFilas4: 'Salida sin complicaciones',
+        vyverCoinTitle: 'Vyver Coin Wallet',
+        vyverCoinDesc: '¡Adiós a las máquinas de tarjeta! Nuestra billetera digital funciona en todos los eventos Vyver.',
+        vyverCoin1: 'Recarga vía PIX o tarjeta de crédito',
+        vyverCoin2: 'Una cuenta para todas las fiestas',
+        vyverCoin3: 'Sin máquinas, quioscos ni pulseras',
+        vyverCoin4: 'Saldo disponible en tiempo real',
+        jornadaTitle: 'Viaje 100% Digital',
+        jornadaSubtitle: 'Desde el boleto hasta la salida: todo ocurre dentro de Vyver',
+        jornada1: 'Creación de Cuenta',
+        jornada1Desc: 'Verificación automática por CPF, validando nombre y fecha de nacimiento para mayor seguridad',
+        jornada2: 'Descubrimiento de Eventos',
+        jornada2Desc: 'Sugerencias personalizadas basadas en ubicación, estilo musical e historial de consumo',
+        jornada3: 'Compra del Boleto',
+        jornada3Desc: 'Proceso simple y directo con oportunidades de interacción social y networking',
+        jornada4: 'Consumo en el Evento',
+        jornada4Desc: 'Pediste, pagaste, recogiste. Compra bebidas, combos y comidas directamente en la app',
+        jornada5: 'Salida Inteligente',
+        jornada5Desc: 'Resumen de la noche, saldo restante y sugerencias de nuevos eventos automáticamente',
+        mercadoTitle: 'Oportunidad de Mercado',
+        mercadoSubtitle: 'Datos que prueban el potencial del sector',
+        mercado1: 'R$ 141bi',
+        mercado1Label: 'Proyección de consumo total en el sector de eventos en 2025 (ABRAPE)',
+        mercado2: '78%',
+        mercado2Label: 'De los comerciantes han perdido ventas por filas largas (NextQS)',
+        mercado3: '25%',
+        mercado3Label: 'Aumento promedio en el ticket por persona con pagos digitales (Eventbrite)',
+        mercado4: 'R$ 500mil',
+        mercado4Label: 'Ahorro en infraestructura por evento eliminando equipos físicos',
+        modeloTitle: 'Modelo de Negócio',
+        modeloSubtitle: 'Soluciones completas para B2C y B2B',
+        modelo1: 'Vyver (B2C)',
+        modelo1Desc: 'Entradas digitales, consumo sin efectivo y red social para usuarios finales. Experiencia completa e integrada.',
+        modelo2: 'Vyver Control (B2B)',
+        modelo2Desc: 'Gestión de accesos, consumo y ventas en tiempo real para organizadores de eventos y clubes nocturnos.',
+        modelo3: 'Monetización',
+        modelo3Desc: 'Tarifa del 12% sobre transacciones + préstamos instantáneos con 0% de interés para aumentar el consumo.',
+        modelo4: 'Sostenibilidad',
+        modelo4Desc: 'Eliminación de papel, plástico y logística pesada. Solución 100% digital y ecológica.',
+        contatoTitle: '¿Vamos a Revolucionar tu Evento?',
+        contatoDesc: '¿Listo para eliminar filas y aumentar ingresos? ¡Contáctanos!',
+        email: 'contato@vyver.app',
+        location: 'Mogi das Cruzes, São Paulo',
+        footer: '&copy; 2025 Vyver App. Todos los derechos reservados. | Lo mejor de la fiesta en tus manos',
+        developer: 'Desarrollado por Lucas Cabral'
+      }
+    };
+
+    document.title = translations[lang].title;
+    document.querySelector('.hero-content h1').textContent = translations[lang].heroH1;
+    document.querySelector('.hero-content .subtitle').textContent = translations[lang].heroSubtitle;
+    document.querySelector('.hero-content .description').textContent = translations[lang].heroDescription;
+    document.querySelector('.hero-content .download-prompt').textContent = translations[lang].downloadPrompt;
+    document.querySelectorAll('.download-btn span')[0].textContent = translations[lang].appStore;
+    document.querySelectorAll('.download-btn span')[1].textContent = translations[lang].googlePlay;
+    document.querySelector('.social-link span').textContent = translations[lang].instagram;
+    document.querySelector('#problema .section-title').textContent = translations[lang].problemTitle;
+    document.querySelector('#problema .section-subtitle').textContent = translations[lang].problemSubtitle;
+    document.querySelector('#solucao .intro-subtitle').textContent = translations[lang].introSubtitle;
+    document.querySelector('#solucao .feature-text h2').textContent = translations[lang].zeroFilasTitle;
+    document.querySelector('#solucao .feature-text p').textContent = translations[lang].zeroFilasDesc;
+    document.querySelectorAll('#solucao .feature-list li span + span')[0].textContent = translations[lang].zeroFilas1;
+    document.querySelectorAll('#solucao .feature-list li span + span')[1].textContent = translations[lang].zeroFilas2;
+    document.querySelectorAll('#solucao .feature-list li span + span')[2].textContent = translations[lang].zeroFilas3;
+    document.querySelectorAll('#solucao .feature-list li span + span')[3].textContent = translations[lang].zeroFilas4;
+    document.querySelector('#vyver-coin-section .feature-text h2').textContent = translations[lang].vyverCoinTitle;
+    document.querySelector('#vyver-coin-section .feature-text p').textContent = translations[lang].vyverCoinDesc;
+    document.querySelectorAll('#vyver-coin-section .feature-list li span + span')[0].textContent = translations[lang].vyverCoin1;
+    document.querySelectorAll('#vyver-coin-section .feature-list li span + span')[1].textContent = translations[lang].vyverCoin2;
+    document.querySelectorAll('#vyver-coin-section .feature-list li span + span')[2].textContent = translations[lang].vyverCoin3;
+    document.querySelectorAll('#vyver-coin-section .feature-list li span + span')[3].textContent = translations[lang].vyverCoin4;
+    document.querySelector('#jornada .section-title').textContent = translations[lang].jornadaTitle;
+    document.querySelector('#jornada .section-subtitle').textContent = translations[lang].jornadaSubtitle;
+    document.querySelectorAll('#jornada .step-card h3')[0].textContent = translations[lang].jornada1;
+    document.querySelectorAll('#jornada .step-card p')[0].textContent = translations[lang].jornada1Desc;
+    document.querySelectorAll('#jornada .step-card h3')[1].textContent = translations[lang].jornada2;
+    document.querySelectorAll('#jornada .step-card p')[1].textContent = translations[lang].jornada2Desc;
+    document.querySelectorAll('#jornada .step-card h3')[2].textContent = translations[lang].jornada3;
+    document.querySelectorAll('#jornada .step-card p')[2].textContent = translations[lang].jornada3Desc;
+    document.querySelectorAll('#jornada .step-card h3')[3].textContent = translations[lang].jornada4;
+    document.querySelectorAll('#jornada .step-card p')[3].textContent = translations[lang].jornada4Desc;
+    document.querySelectorAll('#jornada .step-card h3')[4].textContent = translations[lang].jornada5;
+    document.querySelectorAll('#jornada .step-card p')[4].textContent = translations[lang].jornada5Desc;
+    document.querySelector('#mercado .section-title').textContent = translations[lang].mercadoTitle;
+    document.querySelector('#mercado .section-subtitle').textContent = translations[lang].mercadoSubtitle;
+    document.querySelectorAll('#mercado .stat-card .stat-number')[0].textContent = translations[lang].mercado1;
+    document.querySelectorAll('#mercado .stat-card .stat-label')[0].textContent = translations[lang].mercado1Label;
+    document.querySelectorAll('#mercado .stat-card .stat-number')[1].textContent = translations[lang].mercado2;
+    document.querySelectorAll('#mercado .stat-card .stat-label')[1].textContent = translations[lang].mercado2Label;
+    document.querySelectorAll('#mercado .stat-card .stat-number')[2].textContent = translations[lang].mercado3;
+    document.querySelectorAll('#mercado .stat-card .stat-label')[2].textContent = translations[lang].mercado3Label;
+    document.querySelectorAll('#mercado .stat-card .stat-number')[3].textContent = translations[lang].mercado4;
+    document.querySelectorAll('#mercado .stat-card .stat-label')[3].textContent = translations[lang].mercado4Label;
+    document.querySelector('#modelo .section-title').textContent = translations[lang].modeloTitle;
+    document.querySelector('#modelo .section-subtitle').textContent = translations[lang].modeloSubtitle;
+    document.querySelectorAll('#modelo .model-card h3')[0].textContent = translations[lang].modelo1;
+    document.querySelectorAll('#modelo .model-card p')[0].textContent = translations[lang].modelo1Desc;
+    document.querySelectorAll('#modelo .model-card h3')[1].textContent = translations[lang].modelo2;
+    document.querySelectorAll('#modelo .model-card p')[1].textContent = translations[lang].modelo2Desc;
+    document.querySelectorAll('#modelo .model-card h3')[2].textContent = translations[lang].modelo3;
+    document.querySelectorAll('#modelo .model-card p')[2].textContent = translations[lang].modelo3Desc;
+    document.querySelectorAll('#modelo .model-card h3')[3].textContent = translations[lang].modelo4;
+    document.querySelectorAll('#modelo .model-card p')[3].textContent = translations[lang].modelo4Desc;
+    document.querySelector('#contato .section-title').textContent = translations[lang].contatoTitle;
+    document.querySelector('#contato p[style]').textContent = translations[lang].contatoDesc;
+    document.querySelectorAll('#contato .contact-item a')[0].textContent = translations[lang].email;
+    document.querySelectorAll('#contato .contact-item span')[1].textContent = translations[lang].location;
+    document.querySelector('.footer p:nth-child(1)').innerHTML = translations[lang].footer;
+    document.querySelector('.footer p:nth-child(2)').textContent = translations[lang].developer;
+  }
+
+  // Initialize with Portuguese
+  changeLanguage('pt-BR');
+</script>
