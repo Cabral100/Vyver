@@ -54,6 +54,7 @@
     .logo-loader img {
       width: 300px;
       height: 300px;
+      border-radius: 50%;
       border: none;
       animation: pulse 1.5s infinite ease-in-out;
     }
@@ -104,6 +105,13 @@
       background: none;
     }
 
+    .logo-icon img {
+      width: 100%;
+      height: 100%;
+      object-fit: contain;
+      border-radius: 20%;
+    }
+
     .logo-text {
       font-size: 2rem;
       font-weight: 700;
@@ -144,7 +152,7 @@
       max-width: 1800px;
       margin: 0 auto;
       padding: 0 2rem;
-      gap: 3rem; /* Increased gap between logo, nav, and translation buttons */
+      gap: 3rem;
       overflow: hidden;
     }
 
@@ -212,7 +220,6 @@
       box-shadow: 0 5px 15px rgba(135, 48, 195, 0.3);
     }
 
-
     .mobile-menu {
       display: none;
       background: none;
@@ -239,6 +246,7 @@
       color: var(--white);
       position: relative;
       overflow: hidden;
+      text-align: center;
     }
 
     .hero::before {
@@ -262,16 +270,15 @@
       max-width: 1200px;
       margin: 0 auto;
       padding: 0 2rem;
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 4rem;
+      display: flex;
+      flex-direction: column;
       align-items: center;
       position: relative;
       z-index: 1;
     }
 
     .hero-content h1 {
-      font-size: 4rem;
+      font-size: 5rem;
       font-weight: 700;
       background: var(--white);
       -webkit-background-clip: text;
@@ -279,12 +286,12 @@
       background-clip: text;
       margin-bottom: 1rem;
       text-transform: uppercase;
-      letter-spacing: 3px;
+      letter-spacing: 5px;
       animation: fadeInUp 1s ease-out;
     }
 
     .hero-content .subtitle {
-      font-size: 1.5rem;
+      font-size: 2rem;
       color: var(--light-gray);
       margin-bottom: 2rem;
       font-weight: 600;
@@ -292,16 +299,17 @@
     }
 
     .hero-content .description {
-      font-size: 1.2rem;
+      font-size: 1.5rem;
       color: var(--white);
       margin-bottom: 3rem;
       opacity: 0.8;
       line-height: 1.7;
+      max-width: 800px;
       animation: fadeInUp 1.4s ease-out;
     }
 
     .hero-content .download-prompt {
-      font-size: 1.8rem;
+      font-size: 2.5rem;
       font-weight: 700;
       color: var(--light-gray);
       margin-bottom: 1.5rem;
@@ -346,14 +354,15 @@
       display: inline-flex;
       align-items: center;
       gap: 0.5rem;
-      color: var(--light-gray);
+      background: var(--dark-gray);
+      color: var(--white);
+      padding: 12px 24px;
       text-decoration: none;
+      border-radius: 12px;
       font-weight: 600;
-      font-size: 2.0rem;
-      padding: 0.5rem 1rem;
-      border-radius: 8px;
+      font-size: 0.9rem;
       transition: all 0.3s ease;
-      background: var(--primary-purple);
+      box-shadow: 0 4px 15px rgba(46, 45, 44, 0.2);
     }
 
     @keyframes glow {
@@ -363,139 +372,8 @@
 
     .social-link:hover {
       color: var(--white);
-      background: var(--dark-gray);
+      background: var(--secondary-purple);
       transform: translateX(5px);
-    }
-
-    .hero-image {
-      display: flex;
-      justify-content: center;
-      align-items: center;
-    }
-
-    .phone-mockup {
-      width: 400px;
-      height: 650px;
-      background: black;
-      border-radius: 35px;
-      border: 2px solid rgb(40, 40, 40);
-      padding: 10px;
-      position: relative;
-      box-shadow: 2px 5px 15px rgba(0, 0, 0, 0.486);
-      transition: transform 0.5s ease, box-shadow 0.5s ease;
-    }
-
-    .phone-mockup:hover {
-      transform: rotate(5deg) scale(1.05);
-      box-shadow: 5px 10px 20px rgba(0, 0, 0, 0.7);
-    }
-
-    .phone-mockup .card-int {
-      background-image: linear-gradient(to right bottom, #ff0000, #ff0045, #ff0078, #ea00aa, #b81cd7, #8a3ad6, #5746cf, #004ac2, #003d94, #002e66, #001d3a, #020812);
-      background-size: 200% 200%;
-      background-position: 0% 0%;
-      height: 100%;
-      border-radius: 25px;
-      transition: all 0.6s ease-out;
-      overflow: hidden;
-      position: relative;
-    }
-
-    .phone-mockup:hover .card-int {
-      background-position: 100% 100%;
-    }
-
-    .phone-mockup .top {
-      position: absolute;
-      top: 0px;
-      right: 50%;
-      transform: translate(50%, 0%);
-      width: 35%;
-      height: 18px;
-      background-color: black;
-      border-bottom-left-radius: 10px;
-      border-bottom-right-radius: 10px;
-    }
-
-    .phone-mockup .speaker {
-      position: absolute;
-      top: 2px;
-      right: 50%;
-      transform: translate(50%, 0%);
-      width: 40%;
-      height: 2px;
-      border-radius: 2px;
-      background-color: rgb(20, 20, 20);
-    }
-
-    .phone-mockup .camera {
-      position: absolute;
-      top: 6px;
-      right: 84%;
-      transform: translate(50%, 0%);
-      width: 6px;
-      height: 6px;
-      border-radius: 50%;
-      background-color: rgba(255, 255, 255, 0.048);
-    }
-
-    .phone-mockup .camera .int {
-      position: absolute;
-      width: 3px;
-      height: 3px;
-      border-radius: 50%;
-      top: 50%;
-      right: 50%;
-      transform: translate(50%, -50%);
-      background-color: rgba(0, 0, 255, 0.212);
-    }
-
-    .phone-mockup .btn1, .phone-mockup .btn2, .phone-mockup .btn3, .phone-mockup .btn4 {
-      position: absolute;
-      width: 2px;
-    }
-
-    .phone-mockup .btn1, .phone-mockup .btn2, .phone-mockup .btn3 {
-      height: 45px;
-      top: 30%;
-      right: -4px;
-      background-image: linear-gradient(to right, #111111, #222222, #333333, #464646, #595959);
-    }
-
-    .phone-mockup .btn2, .phone-mockup .btn3 {
-      transform: scale(-1);
-      left: -4px;
-    }
-
-    .phone-mockup .btn2 {
-      height: 30px;
-      top: 26%;
-    }
-
-    .phone-mockup .btn3 {
-      height: 30px;
-      top: 36%;
-    }
-
-    .phone-mockup .phone-screen {
-      width: 100%;
-      height: 100%;
-      border-radius: 30px;
-      display: flex;
-      flex-direction: column;
-      align-items: center;
-      justify-content: center;
-      text-align: center;
-      padding: 0;
-      box-shadow: inset 0 2px 10px rgba(255, 255, 255, 0.1);
-      background: none;
-    }
-
-    .phone-mockup .phone-screen img {
-      width: 100%;
-      height: 100%;
-      object-fit: cover;
-      border-radius: 20px;
     }
 
     /* Sections */
@@ -1026,26 +904,23 @@
       }
 
       .hero-container {
-        grid-template-columns: 1fr;
-        gap: 2rem;
-        text-align: center;
         padding: 1rem;
       }
 
       .hero-content h1 {
-        font-size: 2.5rem;
+        font-size: 3rem;
       }
 
       .hero-content .subtitle {
-        font-size: 1.2rem;
+        font-size: 1.5rem;
       }
 
       .hero-content .description {
-        font-size: 1rem;
+        font-size: 1.2rem;
       }
 
       .hero-content .download-prompt {
-        font-size: 1.5rem;
+        font-size: 2rem;
       }
 
       .download-buttons {
@@ -1066,17 +941,6 @@
         padding: 0.5rem;
         width: 50%;
         text-align: center;
-      }
-
-      .phone-mockup {
-        width: 300px;
-        height: 500px;
-        padding: 5px;
-        transform: rotate(0deg);
-      }
-
-      .phone-mockup:hover {
-        transform: rotate(5deg) scale(1.1);
       }
 
       .feature-content {
@@ -1174,17 +1038,11 @@
       }
 
       .hero-content h1 {
-        font-size: 2rem;
+        font-size: 2.5rem;
       }
 
       .hero-content .download-prompt {
-        font-size: 1.2rem;
-      }
-
-      .phone-mockup {
-        width: 250px;
-        height: 400px;
-        padding: 3px;
+        font-size: 1.5rem;
       }
     }
   </style>
@@ -1244,37 +1102,15 @@
         <span data-translate="instagram">@vyver.app</span>
       </a>
     </div>
-    <div class="hero-image">
-      <div class="phone-mockup">
-        <div class="card-int">
-          <div class="top">
-            <div class="camera">
-              <div class="int"></div>
-            </div>
-            <div class="speaker"></div>
-          </div>
-          <div class="btn1"></div>
-          <div class="btn2"></div>
-          <div class="btn3"></div>
-          <div class="btn4"></div>
-          <div class="phone-screen">
-            <img src="phoneft.jpg" alt="Vyver App">
-          </div>
-        </div>
-      </div>
-    </div>
-  </div>
-</section>
-
-<section id="problema" class="section problem">
-  <div class="container">
-    <h2 class="section-title" data-translate="problemTitle">Era Uma Vez um Problema</h2>
-    <p class="section-subtitle" data-translate="problemSubtitle">Os desafios que motivaram a criação da Vyver</p>
   </div>
 </section>
 
 <section id="solucao" class="section zero-filas">
   <div class="container">
+    <div class="container">
+      <h2 class="section-title" data-translate="problemTitle">Era Uma Vez um Problema</h2>
+      <p class="section-subtitle" data-translate="problemSubtitle">Os desafios que motivaram a criação da Vyver</p>
+    </div>
     <p class="intro-subtitle" data-translate="introSubtitle">Então a Vyver trouxe</p>
     <div class="feature-content">
       <div class="feature-text">
@@ -1392,10 +1228,6 @@
         <h3 data-translate="modelo2">Vyver Control (B2B)</h3>
         <p data-translate="modelo2Desc">Gestão de acessos, consumo e vendas em tempo real para organizadores de eventos e casas noturnas.</p>
       </div>
-      <div class="model-card">
-        <h3 data-translate="modelo3">Monetização</h3>
-        <p data-translate="modelo3Desc">Taxa de 12% sobre transações + "empréstimos" instantâneos com juros 0% para aumentar o consumo.</p>
-      </div>
       <div class="model-card sustainability">
         <h3 data-translate="modelo4">Sustentabilidade</h3>
         <p data-translate="modelo4Desc">Eliminação de papel, plástico e logística pesada. Solução 100% digital e ecologicamente responsável.</p>
@@ -1446,7 +1278,7 @@
     const loadingScreen = document.getElementById('loading-screen');
     setTimeout(() => {
       loadingScreen.classList.add('fade-out');
-    }, 2000); // 2 seconds + 0.5s transition = 2.5s total
+    }, 2000);
   });
 
   // Mobile menu toggle
@@ -1575,8 +1407,6 @@
         modelo1Desc: 'Ingresso digital, consumo cashless e rede social para os usuários finais. Experiência completa e integrada.',
         modelo2: 'Vyver Control (B2B)',
         modelo2Desc: 'Gestão de acessos, consumo e vendas em tempo real para organizadores de eventos e casas noturnas.',
-        modelo3: 'Monetização',
-        modelo3Desc: 'Taxa de 12% sobre transações + "empréstimos" instantâneos com juros 0% para aumentar o consumo.',
         modelo4: 'Sustentabilidade',
         modelo4Desc: 'Eliminação de papel, plástico e logística pesada. Solução 100% digital e ecologicamente responsável.',
         contatoTitle: 'Vamos Revolucionar Seu Evento?',
@@ -1646,14 +1476,11 @@
         modelo1Desc: 'Digital tickets, cashless consumption, and social network for end users. Complete and integrated experience.',
         modelo2: 'Vyver Control (B2B)',
         modelo2Desc: 'Real-time access, consumption, and sales management for event organizers and nightclubs.',
-        modelo3: 'Monetization',
-        modelo3Desc: '12% transaction fee + 0% interest instant loans to boost consumption.',
         modelo4: 'Sustainability',
         modelo4Desc: 'Elimination of paper, plastic, and heavy logistics. 100% digital and eco-friendly solution.',
         contatoTitle: 'Let\'s Revolutionize Your Event?',
         contatoDesc: 'Ready to eliminate queues and boost revenue? Contact us!',
-        email: '\n' +
-                'atendimento@vyver.com.br',
+        email: 'atendimento@vyver.com.br',
         location: 'Mogi das Cruzes, São Paulo',
         footer: '&copy; 2025 Vyver App. All rights reserved. | The best of the party in your hands',
         developer: 'Developed by Lucas Cabral'
@@ -1718,14 +1545,11 @@
         modelo1Desc: 'Entradas digitales, consumo sin efectivo y red social para usuarios finales. Experiencia completa e integrada.',
         modelo2: 'Vyver Control (B2B)',
         modelo2Desc: 'Gestión de accesos, consumo y ventas en tiempo real para organizadores de eventos y clubes nocturnos.',
-        modelo3: 'Monetización',
-        modelo3Desc: 'Tarifa del 12% sobre transacciones + préstamos instantáneos con 0% de interés para aumentar el consumo.',
         modelo4: 'Sostenibilidad',
         modelo4Desc: 'Eliminación de papel, plástico y logística pesada. Solución 100% digital y ecológica.',
         contatoTitle: '¿Vamos a Revolucionar tu Evento?',
         contatoDesc: '¿Listo para eliminar filas y aumentar ingresos? ¡Contáctanos!',
-        email: '\n' +
-                'atendimento@vyver.com.br',
+        email: 'atendimento@vyver.com.br',
         location: 'Mogi das Cruzes, São Paulo',
         footer: '&copy; 2025 Vyver App. Todos los derechos reservados. | Lo mejor de la fiesta en tus manos',
         developer: 'Desarrollado por Lucas Cabral'
@@ -1739,6 +1563,17 @@
         element.textContent = translations[lang][key];
       }
     });
+
+    // Update nav menu text
+    const navLinks = document.querySelectorAll('.nav-menu a');
+    navLinks[0].textContent = translations[lang].navHome;
+    navLinks[1].textContent = translations[lang].navProblem;
+    navLinks[2].textContent = translations[lang].navSolution;
+    navLinks[3].textContent = translations[lang].navVyverCoin;
+    navLinks[4].textContent = translations[lang].navJourney;
+    navLinks[5].textContent = translations[lang].navMarket;
+    navLinks[6].textContent = translations[lang].navModel;
+    navLinks[7].textContent = translations[lang].navContact;
   }
 
   // Initialize with Portuguese
