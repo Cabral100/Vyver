@@ -853,6 +853,13 @@
     .footer p {
       margin-bottom: 1rem;
     }
+    .link_name {
+      color: inherit;         /* herda a cor do texto ao redor */
+      text-decoration: none;  /* remove sublinhado */
+      font-style: normal;     /* mantém estilo normal */
+      font-weight: normal;    /* evita ficar negrito */
+      cursor: pointer;        /* ainda indica que é clicável */
+    }
 
     /* Back to Top Button */
     #back-to-top {
@@ -1408,12 +1415,9 @@
 <footer class="footer">
   <div class="container">
     <p data-translate="footer">&copy; 2025 Vyver App. Todos os direitos reservados. | O melhor da balada em suas mãos</p>
-    <p data-translate="developer">
-      Desenvolvido por 
-      <a href="https://wa.me/5511960573657?text=Gostaria%20de%20saber%20mais%20sobre%20os%20serviços" target="_blank" rel="noopener noreferrer">
-        Lucas Cabral
+      <a class = "link_name" href="https://api.whatsapp.com/send?phone=5511960573657&text=Gostaria%20de%20saber%20mais%20sobre%20os%20servi%C3%A7os" target="_blank" rel="noopener noreferrer">
+        Desenvolvido por Lucas Cabral
       </a>
-    </p>
   </div>
 </footer>
 
