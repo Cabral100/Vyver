@@ -97,8 +97,8 @@
     }
 
     .logo-icon {
-      width: 50px;
-      height: 50px;
+      width: 200px;
+      height: 100px;
       display: flex;
       align-items: center;
       justify-content: center;
@@ -113,7 +113,7 @@
     }
 
     .logo-text {
-      font-size: 2rem;
+      font-size: 2.5rem;
       font-weight: 700;
       color: var(--primary-purple);
       text-transform: uppercase;
@@ -137,7 +137,7 @@
     }
 
     .logo-subtitle {
-      font-size: 0.7rem;
+      font-size: 0.8rem;
       color: var(--secondary-purple);
       font-weight: 500;
       margin-top: -5px;
@@ -236,9 +236,27 @@
       background: rgba(135, 48, 195, 0.1);
     }
 
+    /* Language Dropdown (Desktop) */
+    .lang-select {
+      background: var(--dark-gray);
+      color: var(--white);
+      border: none;
+      padding: 8px 16px;
+      border-radius: 20px;
+      font-size: 0.9rem;
+      font-weight: 600;
+      cursor: pointer;
+      transition: background 0.3s ease, transform 0.3s ease;
+    }
+
+    .lang-select:hover {
+      background: var(--secondary-purple);
+      transform: scale(1.1);
+    }
+
     /* Hero Section */
     .hero {
-      background: var(--primary-purple);
+      background: url("hero.jpg") center/cover;
       padding: 140px 0 80px;
       display: flex;
       align-items: center;
@@ -252,18 +270,12 @@
     .hero::before {
       content: '';
       position: absolute;
-      top: -50%;
-      left: -50%;
-      width: 200%;
-      height: 200%;
-      background: radial-gradient(circle, rgba(208, 105, 246, 0.2) 0%, transparent 70%);
-      animation: rotate 15s linear infinite;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
       z-index: 0;
-    }
-
-    @keyframes rotate {
-      0% { transform: rotate(0deg); }
-      100% { transform: rotate(360deg); }
     }
 
     .hero-container {
@@ -325,16 +337,18 @@
     }
 
     .download-btn {
-      display: flex;
+      display: inline-flex;
       align-items: center;
       gap: 0.5rem;
       background: var(--dark-gray);
       color: var(--white);
       padding: 12px 24px;
+      width: 190px;
+      height: 80px;
       text-decoration: none;
       border-radius: 12px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 1.5rem;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(46, 45, 44, 0.2);
     }
@@ -357,10 +371,12 @@
       background: var(--dark-gray);
       color: var(--white);
       padding: 12px 24px;
+      width: 190px;
+      height: 80px;
       text-decoration: none;
       border-radius: 12px;
       font-weight: 600;
-      font-size: 0.9rem;
+      font-size: 1.5rem;
       transition: all 0.3s ease;
       box-shadow: 0 4px 15px rgba(46, 45, 44, 0.2);
     }
@@ -718,15 +734,23 @@
     }
 
     .model-card .model-icon {
-      width: 80px;
-      height: 80px;
+      width: 280px;
+      height: 180px;
       margin-bottom: 1rem;
+      margin-left: auto;
+      margin-right: auto;
+      display: flex;
+      align-items: center;
+      justify-content: center;
     }
 
     .model-card .model-icon img {
-      width: 100%;
-      height: 100%;
+      width: 70%;
+      height: 70%;
       object-fit: contain;
+      display: flex;
+      justify-content: center;
+      align-items: center;
     }
 
     /* Sustainability Card Styling */
@@ -829,7 +853,7 @@
       transform: rotate(360deg);
     }
 
-    /* Language Buttons */
+    /* Language Buttons (Mobile) */
     .lang-buttons {
       display: flex;
       justify-content: center;
@@ -900,7 +924,7 @@
       }
 
       .logo img {
-        width: 120px;
+        width: 150px;
       }
 
       .hero-container {
@@ -930,17 +954,17 @@
       }
 
       .download-btn {
-        width: 50%;
+        width: 60%;
         text-align: center;
-        padding: 8px 16px;
-        font-size: 0.8rem;
+        padding: 12px 24px;
+        font-size: 0.9rem;
       }
 
       .social-link {
-        font-size: 1.5rem;
-        padding: 0.5rem;
-        width: 50%;
+        width: 60%;
         text-align: center;
+        padding: 12px 24px;
+        font-size: 0.9rem;
       }
 
       .feature-content {
@@ -998,20 +1022,31 @@
       }
 
       .model-card .model-icon {
-        width: 60px;
-        height: 60px;
+        width: 200px;
+        height: 200px;
       }
 
       .lang-buttons {
-        flex-direction: row;
-        gap: 0.5rem;
-        padding: 0.3rem 0.5rem;
-        margin-top: 0.5rem;
+        display: flex;
+      }
+
+      .lang-select {
+        display: none;
       }
 
       .lang-btn {
         width: auto;
         padding: 6px 12px;
+      }
+    }
+
+    @media (min-width: 769px) {
+      .lang-buttons {
+        display: none;
+      }
+
+      .lang-select {
+        display: block;
       }
     }
 
@@ -1021,8 +1056,8 @@
       }
 
       .download-btn {
-        padding: 8px 16px;
-        font-size: 0.8rem;
+        padding: 12px 24px;
+        font-size: 0.9rem;
       }
 
       .nav-container {
@@ -1050,14 +1085,13 @@
 <body>
 <!-- Loading Screen -->
 <div id="loading-screen">
-  <div class="logo-loader"><img src="loading.jpg" alt="Vyver Logo"></div>
+  <div class="logo-loader"><img src="loading.jpg" alt="Vyver Logo" style="width: 400px; height: 400px;"></div>
 </div>
 
 <header class="header" id="header">
   <div class="nav-container">
     <div class="logo" onclick="scrollToTop()">
-      <div class="logo-icon"><img src="loading.jpg" alt="Vyver Logo" style="width: 100%; height: 100%; object-fit: contain;"></div>
-      <h1 class="logo-text">Vyver</h1>
+      <div class="logo-icon"><img src="logonovo.jpg" alt="Vyver Logo" style="width: 100%; height: 100%; object-fit: contain;"></div>
     </div>
     <nav class="nav-menu" id="navMenu">
       <a href="#home">Início</a>
@@ -1068,6 +1102,11 @@
       <a href="#mercado">Mercado</a>
       <a href="#modelo">Modelo</a>
       <a href="#contato">Contato</a>
+      <select class="lang-select" onchange="changeLanguage(this.value)">
+        <option value="pt-BR">Português</option>
+        <option value="en">English</option>
+        <option value="es">Español</option>
+      </select>
       <div class="lang-buttons">
         <button class="lang-btn" onclick="changeLanguage('pt-BR')">Português</button>
         <button class="lang-btn" onclick="changeLanguage('en')">English</button>
@@ -1107,11 +1146,6 @@
 
 <section id="solucao" class="section zero-filas">
   <div class="container">
-    <div class="container">
-      <h2 class="section-title" data-translate="problemTitle">Era Uma Vez um Problema</h2>
-      <p class="section-subtitle" data-translate="problemSubtitle">Os desafios que motivaram a criação da Vyver</p>
-    </div>
-    <p class="intro-subtitle" data-translate="introSubtitle">Então a Vyver trouxe</p>
     <div class="feature-content">
       <div class="feature-text">
         <h2><span class="highlight" data-translate="zeroFilasTitle">Zero</span> Filas</h2>
@@ -1205,10 +1239,6 @@
         <div class="stat-number" data-translate="mercado3">25%</div>
         <div class="stat-label" data-translate="mercado3Label">Aumento médio no ticket por pessoa com pagamentos digitais (Eventbrite)</div>
       </div>
-      <div class="stat-card">
-        <div class="stat-number" data-translate="mercado4">R$ 500mil</div>
-        <div class="stat-label" data-translate="mercado4Label">Economia em infraestrutura por evento eliminando equipamentos físicos</div>
-      </div>
     </div>
   </div>
 </section>
@@ -1219,12 +1249,12 @@
     <p class="section-subtitle" data-translate="modeloSubtitle">Soluções completas para B2C e B2B</p>
     <div class="model-grid">
       <div class="model-card">
-        <div class="model-icon"><img src="B2C.jpg" alt="B2C Icon"></div>
+        <div class="model-icon"><img src="logo.png" alt="B2C Icon"></div>
         <h3 data-translate="modelo1">Vyver (B2C)</h3>
         <p data-translate="modelo1Desc">Ingresso digital, consumo cashless e rede social para os usuários finais. Experiência completa e integrada.</p>
       </div>
       <div class="model-card">
-        <div class="model-icon"><img src="B2B.jpg" alt="B2B Icon"></div>
+        <div class="model-icon"><img src="logo2.png" alt="B2B Icon"></div>
         <h3 data-translate="modelo2">Vyver Control (B2B)</h3>
         <p data-translate="modelo2Desc">Gestão de acessos, consumo e vendas em tempo real para organizadores de eventos e casas noturnas.</p>
       </div>
@@ -1232,6 +1262,7 @@
         <h3 data-translate="modelo4">Sustentabilidade</h3>
         <p data-translate="modelo4Desc">Eliminação de papel, plástico e logística pesada. Solução 100% digital e ecologicamente responsável.</p>
       </div>
+
     </div>
   </div>
 </section>
@@ -1255,9 +1286,9 @@
       </div>
       <div class="contact-item">
         <div class="contact-icon">
-          <i class="fas fa-map-marker-alt"></i>
+          <i class="fas fa-globe"></i>
         </div>
-        <span data-translate="location">Mogi das Cruzes, São Paulo</span>
+        <a href="https://vyver.com.br/" target="_blank" data-translate="location">Site Institucional</a>
       </div>
     </div>
   </div>
@@ -1265,7 +1296,7 @@
 
 <footer class="footer">
   <div class="container">
-    <p data-translate="footer">2025 Vyver App. Todos os direitos reservados. | O melhor da balada em suas mãos</p>
+    <p data-translate="footer">&copy; 2025 Vyver App. Todos os direitos reservados. | O melhor da balada em suas mãos</p>
     <p data-translate="developer">Desenvolvido por Lucas Cabral</p>
   </div>
 </footer>
@@ -1367,6 +1398,12 @@
         problemTitle: 'Era Uma Vez um Problema',
         problemSubtitle: 'Os desafios que motivaram a criação da Vyver',
         introSubtitle: 'Então a Vyver trouxe',
+        problem1: 'Filas intermináveis',
+        problem1Desc: 'Perca menos tempo esperando e mais tempo aproveitando o evento.',
+        problem2: 'Pagamentos complicados',
+        problem2Desc: 'Esqueça pulseiras, fichas ou maquininhas que não funcionam.',
+        problem3: 'Falta de conexão',
+        problem3Desc: 'Conecte-se com pessoas e viva experiências únicas no evento.',
         zeroFilasTitle: 'Zero',
         zeroFilasDesc: 'Eliminamos completamente as filas de entrada, consumo e saída dos eventos através de tecnologia 100% digital.',
         zeroFilas1: 'Check-in automático via QR Code',
@@ -1399,8 +1436,6 @@
         mercado2Label: 'Dos comerciantes já perderam vendas por causa de filas demoradas (NextQS)',
         mercado3: '25%',
         mercado3Label: 'Aumento médio no ticket por pessoa com pagamentos digitais (Eventbrite)',
-        mercado4: 'R$ 500mil',
-        mercado4Label: 'Economia em infraestrutura por evento eliminando equipamentos físicos',
         modeloTitle: 'Modelo de Negócio',
         modeloSubtitle: 'Soluções completas para B2C e B2B',
         modelo1: 'Vyver (B2C)',
@@ -1412,7 +1447,7 @@
         contatoTitle: 'Vamos Revolucionar Seu Evento?',
         contatoDesc: 'Pronto para eliminar filas e aumentar o faturamento? Entre em contato conosco!',
         email: 'atendimento@vyver.com.br',
-        location: 'Mogi das Cruzes, São Paulo',
+        location: 'Site Institucional',
         footer: '&copy; 2025 Vyver App. Todos os direitos reservados. | O melhor da balada em suas mãos',
         developer: 'Desenvolvido por Lucas Cabral'
       },
@@ -1436,6 +1471,12 @@
         problemTitle: 'Once Upon a Problem',
         problemSubtitle: 'The challenges that inspired Vyver\'s creation',
         introSubtitle: 'Then Vyver Brought',
+        problem1: 'Endless Queues',
+        problem1Desc: 'Spend less time waiting and more time enjoying the event.',
+        problem2: 'Complicated Payments',
+        problem2Desc: 'Forget bracelets, tokens, or malfunctioning card machines.',
+        problem3: 'Lack of Connection',
+        problem3Desc: 'Connect with people and live unique experiences at the event.',
         zeroFilasTitle: 'Zero Queues',
         zeroFilasDesc: 'We completely eliminate entry, consumption, and exit queues through 100% digital technology.',
         zeroFilas1: 'Automatic check-in via QR Code',
@@ -1468,8 +1509,6 @@
         mercado2Label: 'Of merchants have lost sales due to long queues (NextQS)',
         mercado3: '25%',
         mercado3Label: 'Average increase in per-person ticket with digital payments (Eventbrite)',
-        mercado4: 'R$ 500k',
-        mercado4Label: 'Savings in infrastructure per event by eliminating physical equipment',
         modeloTitle: 'Business Model',
         modeloSubtitle: 'Complete solutions for B2C and B2B',
         modelo1: 'Vyver (B2C)',
@@ -1481,7 +1520,7 @@
         contatoTitle: 'Let\'s Revolutionize Your Event?',
         contatoDesc: 'Ready to eliminate queues and boost revenue? Contact us!',
         email: 'atendimento@vyver.com.br',
-        location: 'Mogi das Cruzes, São Paulo',
+        location: 'Learn more',
         footer: '&copy; 2025 Vyver App. All rights reserved. | The best of the party in your hands',
         developer: 'Developed by Lucas Cabral'
       },
@@ -1505,6 +1544,12 @@
         problemTitle: 'Érase una vez un Problema',
         problemSubtitle: 'Los desafíos que inspiraron la creación de Vyver',
         introSubtitle: 'Entonces Vyver trajo',
+        problem1: 'Filas interminables',
+        problem1Desc: 'Pasa menos tiempo esperando y más tiempo disfrutando del evento.',
+        problem2: 'Pagos complicados',
+        problem2Desc: 'Olvídate de pulseras, fichas o máquinas de tarjetas que no funcionan.',
+        problem3: 'Falta de conexión',
+        problem3Desc: 'Conéctate con personas y vive experiencias únicas en el evento.',
         zeroFilasTitle: 'Cero Filas',
         zeroFilasDesc: 'Eliminamos completamente las filas de entrada, consumo y salida de los eventos mediante tecnología 100% digital.',
         zeroFilas1: 'Check-in automático vía QR Code',
@@ -1537,8 +1582,6 @@
         mercado2Label: 'De los comerciantes han perdido ventas por filas largas (NextQS)',
         mercado3: '25%',
         mercado3Label: 'Aumento promedio en el ticket por persona con pagos digitales (Eventbrite)',
-        mercado4: 'R$ 500mil',
-        mercado4Label: 'Ahorro en infraestructura por evento eliminando equipos físicos',
         modeloTitle: 'Modelo de Negócio',
         modeloSubtitle: 'Soluciones completas para B2C y B2B',
         modelo1: 'Vyver (B2C)',
@@ -1550,7 +1593,7 @@
         contatoTitle: '¿Vamos a Revolucionar tu Evento?',
         contatoDesc: '¿Listo para eliminar filas y aumentar ingresos? ¡Contáctanos!',
         email: 'atendimento@vyver.com.br',
-        location: 'Mogi das Cruzes, São Paulo',
+        location: 'Más información',
         footer: '&copy; 2025 Vyver App. Todos los derechos reservados. | Lo mejor de la fiesta en tus manos',
         developer: 'Desarrollado por Lucas Cabral'
       }
@@ -1579,3 +1622,5 @@
   // Initialize with Portuguese
   changeLanguage('pt-BR');
 </script>
+</body>
+</html>
