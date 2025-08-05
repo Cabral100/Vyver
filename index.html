@@ -919,15 +919,41 @@
         width: 100%;
         background: white;
         flex-direction: column;
-        padding: 2rem;
+        padding: 1rem;
         box-shadow: 0 5px 20px rgba(135, 48, 195, 0.1);
         border-radius: 0 0 15px 15px;
         max-height: 80vh;
-        overflow-y: auto;
+        overflow-y: auto; /* Allows vertical scrolling if needed */
+        overflow-x: hidden; /* Prevents horizontal scrolling */
+        align-items: center; /* Centers links horizontally */
       }
 
       .nav-menu.active {
         display: flex;
+      }
+
+      .nav-menu a {
+        width: 100%; /* Ensures links take full width */
+        text-align: center; /* Centers text for better appearance */
+        padding: 1rem; /* Increases padding for better touch targets */
+        font-size: 1.2rem; /* Slightly larger font for readability */
+      }
+
+      .lang-select {
+        display: none; /* Hide dropdown on mobile */
+      }
+
+      .lang-buttons {
+        display: flex; /* Show language buttons on mobile */
+        width: 100%; /* Full width for consistency */
+        justify-content: center;
+        padding: 1rem 0;
+      }
+
+      .lang-btn {
+        flex: 1; /* Makes buttons share space evenly */
+        text-align: center;
+        padding: 6px 12px;
       }
 
       .mobile-menu {
@@ -1066,18 +1092,6 @@
       .model-card p {
         font-size: 1rem;
       }
-      .lang-buttons {
-        display: flex;
-      }
-
-      .lang-select {
-        display: none;
-      }
-
-      .lang-btn {
-        width: auto;
-        padding: 6px 12px;
-      }
     }
 
     @media (min-width: 769px) {
@@ -1135,7 +1149,6 @@
     </div>
     <nav class="nav-menu" id="navMenu">
       <a href="#home">Início</a>
-      <a href="#problema">Problema</a>
       <a href="#solucao">Zero Filas</a>
       <a href="#vyver-coin-section">Vyver Coin</a>
       <a href="#jornada">Jornada</a>
@@ -1501,7 +1514,7 @@
         navMarket: 'Market',
         navModel: 'Model',
         navContact: 'Contact',
-        heroH1: 'VYVER',
+        heroH1: ' didactic',
         heroSubtitle: 'The Living Experience App',
         heroDescription: 'Reinventing the way to enter, pay, and connect at events. Zero queues, 100% digital, unified journey.',
         downloadPrompt: 'Download our app now',
@@ -1650,13 +1663,12 @@
     // Update nav menu text
     const navLinks = document.querySelectorAll('.nav-menu a');
     navLinks[0].textContent = translations[lang].navHome;
-    navLinks[1].textContent = translations[lang].navProblem;
-    navLinks[2].textContent = translations[lang].navSolution;
-    navLinks[3].textContent = translations[lang].navVyverCoin;
-    navLinks[4].textContent = translations[lang].navJourney;
-    navLinks[5].textContent = translations[lang].navMarket;
-    navLinks[6].textContent = translations[lang].navModel;
-    navLinks[7].textContent = translations[lang].navContact;
+    navLinks[1].textContent = translations[lang].navSolution;
+    navLinks[2].textContent = translations[lang].navVyverCoin;
+    navLinks[3].textContent = translations[lang].navJourney;
+    navLinks[4].textContent = translations[lang].navMarket;
+    navLinks[5].textContent = translations[lang].navModel;
+    navLinks[6].textContent = translations[lang].navContact;
   }
 
   // Initialize with Portuguese
